@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+     <title>Mosquito Larvae Predictor</title>
+    <style>
+      .container {
+        max-width: 1024px;
+      }
+	  .error {
+		  color: red;
+	  }
+    </style>
+  </head>
+  <body>
+    <div class="col-8">
+      <h1>Mosquito Larvae Predictor</h1>
+  <form role="form" method='POST' action='/'>
+  <div class="form-group">
+    <label for="hamlet">Hamlet (Village Identifier)</label>
+    <select class="form-control" name="hamlet" id="hamlet">
+      <option value="0">Tran An</option>
+      <option value="1">Tan My</option>
+      <option value="2">My Hanh</option>
+      <option value="3">My Chanh</option>
+      <option value="4">My Doi</option>
+      <option value="5">Hoa Phu</option>
+      <option value="6">Rach Doi</option>
+      <option value="7">Ao Cho</option>
+      <option value="8">Luang Khanh</option>
+      <option value="9">Quang Hao</option>
+      <option value="10">Tan Hanh</option>
+    </select>
+  </div>   
+  <fieldset class="form-group">
+    <legend>Container Type</legend>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype1" value="1" checked>
+        Box Tank
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype2" value="2">
+        Cylindrical Tank
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype3" value="3">
+        Standard Jar
+      </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype4" value="4">
+        Small Jar
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype5" value="5">
+        Large Jar
+      </label>
+    </div>
+    <div class="form-check">
+    <label class="form-check-label">
+        <input type="radio" class="form-check-input" name="containertype" id="containertype6" value="6">
+        Other
+      </label>
+    </div>  
+    </fieldset>
+  <div class="form-group">
+    <label for="waterlevel">Water level in Container</label>
+    <select class="form-control" name="waterlevel">
+      <option value="0">0 (No water)</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10 (Full)</option>
+    </select>
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" name="containerpos" value="1">
+      Is the container outside?
+    </label>
+  </div>   
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" name="meso" value="1">
+      Did you find any Meso in the container?
+    </label>
+  </div>  
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" name="chemicals" value="1">
+      Has the owner put any chemicals in the container?
+    </label>
+  </div>     
+  <button type="submit" class="btn btn-primary">Predict</button>
+  </div>
+      </form>
+      <br>
+      {% for error in errors %}
+        <h4 class="error">{{ error }}</h4>
+      {% endfor %}
+    </div>
+    <div class="col-sm-8">
+      {% if results %}
+	  <h2>Results</h2>
+	  <br>
+	  <div id="results">
+          <table class="table table-striped col-10">
+            <thead>
+              <tr>
+                  <th>Village</th>
+                  <th>Container Type</th>
+                  <th>Larvae Likely?</th>
+				          <th># of Larvae</th>
+              </tr>
+            </thead>
+            {% for result in results%}
+              <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td>{{ result[2] }}</td>
+                <td>{{ result[3] }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+	  </div>
+	  {% endif %}
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>  
+    </body>
+
+</html>
